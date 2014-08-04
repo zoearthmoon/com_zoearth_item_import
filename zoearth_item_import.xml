@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="component" version="2.5" method="upgrade">
+    <name>com_loan_customer</name>
+    <version>1.0</version>
+    <author>plusdi.com</author>
+    <authorEmail>zoearth.moon@plusdi.com</authorEmail>
+    <authorUrl>http://www.plusdi.com/</authorUrl>
+    <copyright>Copyright 2014 @plusdi.com</copyright>
+    <creationDate>2014-04-24</creationDate>
+    <description>
+    <![CDATA[
+    <div style="text-align:left">
+        <blockquote>
+        <p>您好!這是[普拉斯數位整合] 所開發的<h1>借貸客戶申請記錄管理功能</h1></p>
+        <small>主要功能項目有
+            <ul>
+            <li>1.申請人列表</li>
+            <li>2.服務列表</li>
+            <li>3.貸款記錄</li>
+        </small>
+        </blockquote>
+        <dl class="dl-horizontal">
+        <dt>1.0版本</dt><dd>基本功能</dd>
+        </dl>
+    </div>
+    ]]></description>
+    <installfile>install.loan_customer.php</installfile>
+    <uninstallfile>uninstall.loan_customer.php</uninstallfile>
+    <scriptfile>script.loan_customer.php</scriptfile>
+    <install>
+        <sql>
+            <file driver="mysql" charset="utf8">sql/install.utf8.sql</file>
+        </sql>
+    </install>
+    <administration>
+        <menu>COM_LOAN_CUSTOMER</menu>
+        <submenu>
+            <menu link="option=com_loan_customer" >COM_LOAN_LIST_LIST</menu>
+            <!-- 
+            <menu link="option=com_config&amp;view=component&amp;component=com_loan_customer" >COM_LOAN_OPTION</menu>
+            <menu link="option=com_loan_customer&amp;view=LoanRecord" >COM_LOAN_RECORD_LIST</menu>
+            <menu link="option=com_loan_customer&amp;view=LoanCustomer" >COM_LOAN_CUSTOMER_LIST</menu>
+            <menu link="option=com_loan_customer&amp;view=LoanSales" >COM_LOAN_SALES_LIST</menu>
+            <menu link="option=com_loan_customer&amp;view=LoanBank" >COM_LOAN_BANK_LIST</menu>
+            -->
+        </submenu>
+        <files folder="administrator/components/com_loan_customer">
+            <filename>index.html</filename>
+            <filename>config.xml</filename>
+            <filename>access.xml</filename>
+            <filename>loan_customer.php</filename>
+            <folder>phpexcel</folder>
+            <folder>models</folder>
+            <folder>helpers</folder>
+            <folder>libraries</folder>
+            <folder>media</folder>
+            <folder>views</folder>
+            <folder>controllers</folder>
+            <folder>sql</folder>
+        </files>
+        <languages folder="administrator/language">
+            <language tag="zh-TW">zh-TW/zh-TW.com_loan_customer.ini</language>
+            <language tag="zh-TW">zh-TW/zh-TW.com_loan_customer.sys.ini</language>
+        </languages>
+    </administration>
+    <config>
+        <fields>
+            <fieldset>
+                <field name="limit" default="10" />
+            </fieldset>
+        </fields>
+    </config>
+    <modules>
+        <module module="mod_loan_record_chart" client="administrator" />
+    </modules>
+</extension>
