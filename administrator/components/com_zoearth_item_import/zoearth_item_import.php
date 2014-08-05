@@ -5,14 +5,14 @@
 */
 defined('_JEXEC') or die('Restricted access');
 
-JToolBarHelper::title('借貸申請記錄資料管理');
+JToolBarHelper::title('Zoearth輸入evernote功能');
 
 JHTML::_('behavior.tooltip');
 JHtml::_('behavior.framework');
 
 //20140429 zoearth 定義一些常用到的變數
-define("COM_NAME",'com_loan_customer');
-define("MODULE_NAME",'LoanCustomer');
+define("COM_NAME",'com_zoearth_item_import');
+define("MODULE_NAME",'ZoearthItemImport');
 define('CONTROLLER_BASE',Juri::base().'index.php?option='.COM_NAME);
 //20140430 zoearth 這邊直接定義time zone 直接寫入datetime
 date_default_timezone_set(JFactory::getConfig()->get('offset'));

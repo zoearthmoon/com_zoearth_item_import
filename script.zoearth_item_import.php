@@ -1,11 +1,11 @@
 <?php
 defined('_JEXEC') or die ;
 
-class Com_Loan_CustomerInstallerScript
+class Com_Zoearth_Item_ImportInstallerScript
 {
     
-    public $comName = "借貸申請記錄資料管理";
-    public $comDir  = "com_loan_customer";
+    public $comName = "Zoearth Help Evernote Import";
+    public $comDir  = "com_zoearth_item_import";
     
     public function postflight($type, $parent)
     {
@@ -61,10 +61,6 @@ class Com_Loan_CustomerInstallerScript
             if ($result)
             {
                 $root = $client == 'administrator' ? JPATH_ADMINISTRATOR : JPATH_SITE;
-                //if (JFile::exists($root.'/modules/'.$name.'/'.$name.'.xml'))
-                //{
-                //    JFile::delete($root.'/modules/'.$name.'/'.$name.'.xml');
-                //}
                 JFile::move($root.'/modules/'.$name.'/'.$name.'.xml', $root.'/modules/'.$name.'/'.$name.'.xml');
             }
             $status->modules[] = array('name' => $name, 'client' => $client, 'result' => $result);
@@ -146,44 +142,6 @@ class Com_Loan_CustomerInstallerScript
                 $db->query();
                 $templine = '';
             }
-        }
-        
-        //安裝時開啟安裝的模組功能
-        $query = "UPDATE #__modules SET published = 1,position = 'cpanel' WHERE module IN (
-                'mod_loan_record_chart'
-                ) ";
-        $db->setQuery($query);
-        $db->query();
-        
-        //安裝時關閉用不到的模組功能
-        $query = "UPDATE #__modules SET published = 0 WHERE title IN (
-                'Popular Articles',
-                'Recently Added Articles',
-                'Logged-in Users',
-                'Z2 Quick Icons (admin)',
-                'Z2 Stats (admin)',
-                'Quick Icons'
-                ) ";
-        $db->setQuery($query);
-        $db->query();
-        
-        //20140122 zoearth 補上欄位
-        $fields = $db->getTableColumns('#__loan_service');
-        if (!array_key_exists('salesGuid', $fields))
-        {
-            $query = "ALTER TABLE #__loan_service
-                    ADD `salesGuid` int(11) NOT NULL DEFAULT '0' COMMENT '業務Guid' AFTER `userGuid` ";
-            $db->setQuery($query);
-            $db->query();
-        }
-        //20140609 zoearth
-        $fields = $db->getTableColumns('#__loan_record');
-        if (!array_key_exists('loanSituationGuid', $fields))
-        {
-            $query = "ALTER TABLE #__loan_record
-                    ADD `loanSituationGuid` int(11) NOT NULL DEFAULT '0' COMMENT '申請情況Guid' AFTER `loanServiceItemGuid` ";
-            $db->setQuery($query);
-            $db->query();
         }
         
     }

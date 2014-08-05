@@ -5,7 +5,7 @@
 defined('_JEXEC') or die('Restricted access');
 jimport('joomla.application.component.view');
 
-class LoanCustomerViewLoanBank extends JViewLegacy
+class ZoearthItemImportViewImport extends JViewLegacy
 {
     function display($tpl = null)
     {
