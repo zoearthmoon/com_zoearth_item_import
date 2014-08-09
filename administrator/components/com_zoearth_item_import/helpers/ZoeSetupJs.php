@@ -20,4 +20,11 @@ class ZoeSetupJs
         $document->addScript('components/'.COM_NAME.'/media/js/jquery.datetimepicker.setup.js', 'text/javascript');
         $document->addStyleSheet('components/'.COM_NAME.'/media/js/jquery.datetimepicker.css');
     }
+    
+    static function lightBox()
+    {
+        $document = JFactory::getDocument();
+        $document->addScript('components/'.COM_NAME.'/media/js/lightbox/lightbox-2.6.min.js', 'text/javascript');
+        $document->addStyleSheet('components/'.COM_NAME.'/media/js/lightbox/lightbox.css');
+    }
 }
