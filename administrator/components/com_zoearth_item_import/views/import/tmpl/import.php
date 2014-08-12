@@ -8,11 +8,17 @@ ZoeSetupJs::lightBox();
 ZoeSetupJs::validate();
 ?>
 <script language="Javascript">
+//檢查圖片資料夾路徑
 jQuery.validator.addMethod("ckeckDirExist", function(value) {
 
-	jQuery.validator.messages.ckeckDirExist = 'QOO';
-	return false;
-    var result = false;
+	//jQuery.validator.messages.ckeckDirExist = 'QOO';
+	var data = {
+			'option':'com_zoearth_item_import',
+			'view':'Import',
+			'task':'ckeckDirExist',
+			'imgUploadPath':imgUploadPath,
+			};
+    var result = 0;
     try {
         $.ajax({
             type: "POST",
@@ -20,17 +26,25 @@ jQuery.validator.addMethod("ckeckDirExist", function(value) {
             async:false,
             url: url,
             data: data,
-            dataType:"html",
-            success: function(msg) {
-                result = (msg=='true') ? true : false;
+            dataType:"json",
+            success: function(data) {
+            	result = data.result;
             }
         });
 	} catch(err) {
-		alert('錯誤：無法進行 checkPersonnelEmailUnique 驗證，請聯繫系統管理員。');
+		alert('ckeckDirExist POST ERROR! ');
         return false;
 	};
-    return result;
-}, "KKK");
+
+	if (result == "1")
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}, "<?php echo JText::_('COM_ZOEARTH_ITEM_IMPORT_IMG_DIR_ERROR')?>");
 
 jQuery(document).ready(function() {
 	jQuery("#mainForm").validate();

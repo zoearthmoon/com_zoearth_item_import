@@ -28,6 +28,20 @@ class ZoearthItemImportControllerImport extends ZoeController
         $view->display();
     }
 
+    function ckeckDirExist()
+    {
+        $imgUploadPath = JRequest::getVar('imgUploadPath');
+        if ($this->isPost() && $imgUploadPath)
+        {
+            if (substr($imgUploadPath,0,5) == 'media' && is_dir(JPATH_ROOT.$imgUploadPath))
+            {
+                return json_encode(array('result'=>1));
+            }
+        }
+        return json_encode(array('result'=>0));
+        exit();
+    }
+    
     //20140424 zoearth 取得編輯介面會需要用到的選單
     function getOptions()
     {
