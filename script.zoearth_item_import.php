@@ -144,6 +144,44 @@ class Com_Zoearth_Item_ImportInstallerScript
             }
         }
         
+        //20140122 zoearth 補上欄位
+        //$fields = $db->getTableColumns('#__loan_service');
+        //if (!array_key_exists('salesGuid', $fields))
+        //{
+        //    $query = "ALTER TABLE #__loan_service
+        //            ADD `salesGuid` int(11) NOT NULL DEFAULT '0' COMMENT '業務Guid' AFTER `userGuid` ";
+        //    $db->setQuery($query);
+        //    $db->query();
+        //}
+        
+        //20140813 zoearth 針對index
+        $addIndexArray = array();
+        //$addIndexArray['#__loan_service'][] = 'customerGuid';
+        
+        foreach ($addIndexArray as $tableName => $indexs)
+        {
+            if (!(is_array($indexs) && count($indexs) > 0 ))
+            {
+                continue;
+            }
+            $query = "SHOW INDEX FROM `".$tableName."` ";
+            $db->setQuery($query);
+            $rows = $db->loadObjectList();
+            $nowIndexs = array();
+            foreach ($rows as $row)
+            {
+                $nowIndexs[] = $row->Key_name;
+            }
+            foreach ($indexs as $newIndex)
+            {
+                if (!in_array($newIndex, $nowIndexs))
+                {
+                    $db->setQuery("CREATE INDEX ".$newIndex." ON ".$tableName." (".$newIndex.") USING BTREE;");
+                    $db->query();
+                }
+            }
+        }
+        
     }
     private function installationResults($status)
     {
