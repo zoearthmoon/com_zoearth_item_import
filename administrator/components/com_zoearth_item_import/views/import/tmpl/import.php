@@ -8,10 +8,49 @@ ZoeSetupJs::lightBox();
 ZoeSetupJs::validate();
 ?>
 <script language="Javascript">
+
+jQuery.validator.addMethod("ckeckPreFixExist", function(value) {
+    var imgUploadPath = jQuery("#imgUploadPath").val();
+    var imgPrefix = jQuery("#imgPrefix").val();
+	var data = {
+			'option':'com_zoearth_item_import',
+			'view':'Import',
+			'task':'ckeckPreFixExist',
+			'imgPrefix':imgPrefix,
+            'imgUploadPath':imgUploadPath,
+			};
+    var result = 0;
+    try {
+        $.ajax({
+            type: "POST",
+            cache:false,
+            async:false,
+            url: url,
+            data: data,
+            dataType:"json",
+            success: function(data) {
+            	result = data.result;
+            }
+        });
+	} catch(err) {
+		alert('ckeckPreFixExist POST ERROR! ');
+        return false;
+	};
+	if (result == "1")
+	{
+		return true;
+	}
+	else
+	{
+        jQuery.validator.messages.ckeckPreFixExist = result;
+		return false;
+	}
+}, "<?php echo JText::_('COM_ZOEARTH_ITEM_IMPORT_IMG_PREFIX_ERROR')?>");
 //檢查圖片資料夾路徑
 jQuery.validator.addMethod("ckeckDirExist", function(value) {
 
 	//jQuery.validator.messages.ckeckDirExist = 'QOO';
+    var imgUploadPath = jQuery("#imgUploadPath").val();
 	var data = {
 			'option':'com_zoearth_item_import',
 			'view':'Import',
@@ -42,6 +81,7 @@ jQuery.validator.addMethod("ckeckDirExist", function(value) {
 	}
 	else
 	{
+        jQuery.validator.messages.ckeckDirExist = result;
 		return false;
 	}
 }, "<?php echo JText::_('COM_ZOEARTH_ITEM_IMPORT_IMG_DIR_ERROR')?>");
@@ -86,7 +126,7 @@ jQuery(document).ready(function() {
                     <div class="alert">
                         <strong><?php echo JText::_('JFIELD_NOTE_DESC')?>!</strong><?php echo JText::_('COM_ZOEARTH_ITEM_IMPORT_STEP02_DESC')?>
                     </div>
-                    <input type="text" id="imgPrefix" name="imgPrefix" placeholder="<?php echo JText::_('COM_ZOEARTH_ITEM_IMPORT_IMG_PREFIX')?>">
+                    <input class="required ckeckPreFixExist" type="text" id="imgPrefix" name="imgPrefix" placeholder="<?php echo JText::_('COM_ZOEARTH_ITEM_IMPORT_IMG_PREFIX')?>">
                 </div>
             </div>
         
@@ -111,7 +151,7 @@ jQuery(document).ready(function() {
                         </a>
                     </div>
                     <div class="rows">
-                        <input type="file" id="evernoteFile" name="evernoteFile" >
+                        <input type="file" class="required" id="evernoteFile" name="evernoteFile" >
                     </div>
                 </div>
             </div>
