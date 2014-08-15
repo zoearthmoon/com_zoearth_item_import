@@ -28,6 +28,11 @@ class ZoearthItemImportControllerImport extends ZoeController
         if ($this->isPost())
         {
             $imgUploadPath = JRequest::getVar('imgUploadPath');
+            //確保結尾路徑不是"/"
+            if (substr($imgUploadPath,-1,1) == '/')
+            {
+                $imgUploadPath = substr($imgUploadPath,0,strlen($imgUploadPath)-1);
+            }
             $imgPrefix     = JRequest::getVar('imgPrefix');
             $evernoteFile  = JRequest::getVar('evernoteFile','','files');
             
@@ -77,14 +82,17 @@ class ZoearthItemImportControllerImport extends ZoeController
                 JError::raiseError(500,'Input ERROR 007');return FALSE;
             }
             
-            $goHtml = '';
-            $goImgDir = '';
+            $goHtml       = '';
+            $goImgDir     = '';
+            $goImgDirName = '';
             while (($file = readdir($dh)) !== false)
             {
                 $fType = filetype($tmpDir.DS.$tmpZipDir.DS.$file);
                 if ($fType == 'dir' && !in_array($file,array('.','..')))
                 {
-                    $goImgDir = $tmpDir.DS.$tmpZipDir.DS.$file;
+                    rename($tmpDir.DS.$tmpZipDir.DS.$file,$tmpDir.DS.$tmpZipDir.DS.$tmpZipDir);
+                    $goImgDir     = $tmpDir.DS.$tmpZipDir.DS.$tmpZipDir;
+                    $goImgDirName = $tmpZipDir;
                 }
                 if ($fType == 'file' && substr($file,-4,4) == 'html' )
                 {
@@ -108,17 +116,39 @@ class ZoearthItemImportControllerImport extends ZoeController
             preg_match("/<body([^>]*)>(.*)<\/body>/",$fileContent,$matches);
             //去掉<a name="9303"/>
             $fileContent = preg_replace('/<a([^>]*)name="([0-9]*)"([^>]*)\/>/','', $matches[2]);
+            $preViewFileContent = $fileContent;//預覽用
+            $preUploadFiles = array();
+            $i = 0;
+            if (is_dir($goImgDir) && $goImgDirName != '')
+            {
+                if ($dh = opendir($goImgDir))
+                {
+                    while (($file = readdir($dh)) !== false)
+                    {
+                        if (filetype($goImgDir.DS.$file) == 'file')
+                        {
+                            $i++;
+                            $oldFileName = $goImgDirName.'/'.$file;
+                            preg_match("/.([^\.]*)$/",$file,$matches);
+                            $imgCount = substr('0'.$i,-2,2);
+                            $newFileName = $imgUploadPath.'/'.$imgPrefix.'_'.$imgCount.'.'.@$matches[1];
+                            $preUploadFiles[] = array(
+                                'tmpFile' => $goImgDir.DS.$file,
+                                'newFile' => $newFileName,
+                                );
+                            $fileContent = preg_replace('/([^"]*)_files\/'.$file.'/',$newFileName,$fileContent);
+                            $preViewFileContent = preg_replace('/([^"]*)_files\/'.$file.'/',JUri::root().'cache/com_zoearth_item_import/'.$tmpZipDir.'/'.$tmpZipDir.'/'.$file,$preViewFileContent);
+                        }
+                    }
+                    closedir($dh);
+                }
+            }
             
-            //if ($goImgDir)
+            $this->viewData['preViewFileContent'] = $preViewFileContent;
+            $this->viewData['fileContent']        = $fileContent;
+            $this->viewData['preUploadFiles']     = $preUploadFiles;
             
-            
-            
-            
-            
-            
-            
-            
-            exit();
+            $view = $this->getDisplay(CONTROLLER.'/show');
         }
         
         $view->assignRef('data', $this->viewData);

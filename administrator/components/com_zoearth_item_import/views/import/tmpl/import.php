@@ -156,7 +156,7 @@ jQuery(document).ready(function() {
                 </div>
             </div>
         
-        <button type="submit" class="btn"><?php echo JText::_('JSUBMIT')?></button>
+        <button type="submit" class="btn btn-success"><i class="icon-ok"></i><?php echo JText::_('JSUBMIT')?></button>
     </fieldset>    
     </div>
     
