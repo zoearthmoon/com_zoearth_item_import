@@ -104,7 +104,7 @@ jQuery(document).ready(function() {
     <div class="row-fluid ZoePath">
     	<?php echo ZoeSayPath::showPath(); ?>
     </div>
-    <form id="mainForm" action="<?php echo Juri::base().'index.php'; ?>" method="get" name="adminForm" id="adminForm" class="form-horizontal"  enctype="multipart/form-data" >
+    <form id="mainForm" action="<?php echo Juri::base().'index.php'; ?>" method="post" name="adminForm" id="adminForm" class="form-horizontal"  enctype="multipart/form-data" >
     <div class="dataTables_wrapper">
     
     <fieldset>
@@ -137,16 +137,16 @@ jQuery(document).ready(function() {
                         <strong><?php echo JText::_('JFIELD_NOTE_DESC')?>!</strong><?php echo JText::_('COM_ZOEARTH_ITEM_IMPORT_STEP03_DESC')?>
                     </div>
                     <div class="rows">
-                        <a rel="lightbox" href="<?php echo JUri::base().'components'.DS.'com_zoearth_item_import'.DS.'media'.DS.'img'.DS.'com_zoearth_item_import_step01.jpg';?>" alt="<?php echo JText::_('COM_ZOEARTH_ITEM_IMPORT_STEP01_DESC')?>">
-                            <img style="width:50px;height:50px" src="<?php echo JUri::base().'components'.DS.'com_zoearth_item_import'.DS.'media'.DS.'img'.DS.'com_zoearth_item_import_step01.jpg';?>" class="img-circle">
+                        <a rel="lightbox" href="<?php echo JUri::base().'components/com_zoearth_item_import/media/img/com_zoearth_item_import_step01.jpg';?>" alt="<?php echo JText::_('COM_ZOEARTH_ITEM_IMPORT_STEP01_DESC')?>">
+                            <img style="width:50px;height:50px" src="<?php echo JUri::base().'components/com_zoearth_item_import/media/img/com_zoearth_item_import_step01.jpg';?>" class="img-circle">
                             <span><?php echo JText::_('COM_ZOEARTH_ITEM_IMPORT_STEP01_TITLE')?></span>
                         </a>
-                        <a rel="lightbox" href="<?php echo JUri::base().'components'.DS.'com_zoearth_item_import'.DS.'media'.DS.'img'.DS.'com_zoearth_item_import_step02.jpg';?>" alt="<?php echo JText::_('COM_ZOEARTH_ITEM_IMPORT_STEP02_DESC')?>">
-                            <img style="width:50px;height:50px" src="<?php echo JUri::base().'components'.DS.'com_zoearth_item_import'.DS.'media'.DS.'img'.DS.'com_zoearth_item_import_step02.jpg';?>" class="img-circle">
+                        <a rel="lightbox" href="<?php echo JUri::base().'components/com_zoearth_item_import/media/img/com_zoearth_item_import_step02.jpg';?>" alt="<?php echo JText::_('COM_ZOEARTH_ITEM_IMPORT_STEP02_DESC')?>">
+                            <img style="width:50px;height:50px" src="<?php echo JUri::base().'components/com_zoearth_item_import/media/img/com_zoearth_item_import_step02.jpg';?>" class="img-circle">
                             <span><?php echo JText::_('COM_ZOEARTH_ITEM_IMPORT_STEP02_TITLE')?></span>
                         </a>
-                        <a rel="lightbox" href="<?php echo JUri::base().'components'.DS.'com_zoearth_item_import'.DS.'media'.DS.'img'.DS.'com_zoearth_item_import_step03.jpg';?>" alt="<?php echo JText::_('COM_ZOEARTH_ITEM_IMPORT_STEP03_DESC')?>">
-                            <img style="width:50px;height:50px" src="<?php echo JUri::base().'components'.DS.'com_zoearth_item_import'.DS.'media'.DS.'img'.DS.'com_zoearth_item_import_step03.jpg';?>" class="img-circle">
+                        <a rel="lightbox" href="<?php echo JUri::base().'components/com_zoearth_item_import/media/img/com_zoearth_item_import_step03.jpg';?>" alt="<?php echo JText::_('COM_ZOEARTH_ITEM_IMPORT_STEP03_DESC')?>">
+                            <img style="width:50px;height:50px" src="<?php echo JUri::base().'components/com_zoearth_item_import/media/img/com_zoearth_item_import_step03.jpg';?>" class="img-circle">
                             <span><?php echo JText::_('COM_ZOEARTH_ITEM_IMPORT_STEP03_TITLE')?></span>
                         </a>
                     </div>
@@ -157,10 +157,9 @@ jQuery(document).ready(function() {
             </div>
         
         <button type="submit" class="btn"><?php echo JText::_('JSUBMIT')?></button>
-    </fieldset>
-    
-        
+    </fieldset>    
     </div>
+    
     <input type="hidden" value="<?php echo $this->data['guid']?>" name="guid">
     <input type="hidden" value="<?php echo $this->data['option']?>" name="option">
     <input type="hidden" value="<?php echo $this->data['view']?>" name="view">
