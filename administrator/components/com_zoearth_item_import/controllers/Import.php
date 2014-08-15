@@ -34,12 +34,13 @@ class ZoearthItemImportControllerImport extends ZoeController
         $imgUploadPath = JRequest::getVar('imgUploadPath');
         if ($this->isPost() && $imgUploadPath)
         {
-            if (substr($imgUploadPath,0,5) == 'media' && is_dir(JPATH_ROOT.$imgUploadPath))
+            if (substr($imgUploadPath,0,6) == 'images' && is_dir(JPATH_ROOT.DS.$imgUploadPath))
             {
-                return json_encode(array('result'=>1));exit();
+                echo json_encode(array('result'=>1));exit();
             }
+            echo json_encode(array('result'=>JText::_('COM_ZOEARTH_ITEM_IMPORT_IMG_DIR_NOT_EXIST').' '.JPATH_ROOT.DS.$imgUploadPath));exit();
         }
-        return json_encode(array('result'=>JText::_('COM_ZOEARTH_ITEM_IMPORT_IMG_DIR_ERROR')));exit();
+        echo json_encode(array('result'=>JText::_('COM_ZOEARTH_ITEM_IMPORT_IMG_DIR_ERROR')));exit();
     }
     
     //驗證路徑中的
@@ -50,31 +51,31 @@ class ZoearthItemImportControllerImport extends ZoeController
         if ($this->isPost() && $imgUploadPath)
         {
             //資料夾錯誤
-            if (substr($imgUploadPath,0,5) == 'media' && is_dir(JPATH_ROOT.$imgUploadPath))
+            if (substr($imgUploadPath,0,6) == 'images' && is_dir(JPATH_ROOT.$imgUploadPath))
             {
                 if ($imgPrefix != '' && !preg_match("/^[a-zA-Z0-9\_\-]+$/",$imgPrefix))
                 {
                     if (!JFile::exists(JPATH_ROOT.$imgUploadPath.DS.$imgPrefix.'_01.jpg'))
                     {
                         //通過驗證
-                        return json_encode(array('result'=>1));exit();
+                        echo json_encode(array('result'=>1));exit();
                     }
                     else
                     {
-                        return json_encode(array('result'=>JText::_('COM_ZOEARTH_ITEM_IMPORT_IMG_PREFIX_ERROR_EXIST')));exit();
+                        echo json_encode(array('result'=>JText::_('COM_ZOEARTH_ITEM_IMPORT_IMG_PREFIX_ERROR_EXIST')));exit();
                     }
                 }
                 else
                 {
-                    return json_encode(array('result'=>JText::_('COM_ZOEARTH_ITEM_IMPORT_IMG_PREFIX_ERROR_PREG')));exit();
+                    echo json_encode(array('result'=>JText::_('COM_ZOEARTH_ITEM_IMPORT_IMG_PREFIX_ERROR_PREG')));exit();
                 }
             }
             else
             {
-                return json_encode(array('result'=>JText::_('COM_ZOEARTH_ITEM_IMPORT_IMG_DIR_ERROR')));exit();
+                echo json_encode(array('result'=>JText::_('COM_ZOEARTH_ITEM_IMPORT_IMG_DIR_ERROR')));exit();
             }
         }
-        return json_encode(array('result'=>JText::_('COM_ZOEARTH_ITEM_IMPORT_IMG_PREFIX_ERROR')));exit();
+        echo json_encode(array('result'=>JText::_('COM_ZOEARTH_ITEM_IMPORT_IMG_PREFIX_ERROR')));exit();
     }
     
     //20140424 zoearth 取得編輯介面會需要用到的選單
