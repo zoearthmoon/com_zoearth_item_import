@@ -21,11 +21,11 @@ jQuery.validator.addMethod("ckeckPreFixExist", function(value) {
 			};
     var result = 0;
     try {
-        $.ajax({
+        jQuery.ajax({
             type: "POST",
             cache:false,
             async:false,
-            url: url,
+            url: "<?php echo CONTROLLER_BASE_URL; ?>",
             data: data,
             dataType:"json",
             success: function(data) {
@@ -59,11 +59,11 @@ jQuery.validator.addMethod("ckeckDirExist", function(value) {
 			};
     var result = 0;
     try {
-        $.ajax({
+        jQuery.ajax({
             type: "POST",
             cache:false,
             async:false,
-            url: url,
+            url: "<?php echo CONTROLLER_BASE_URL; ?>",
             data: data,
             dataType:"json",
             success: function(data) {
@@ -116,7 +116,7 @@ jQuery(document).ready(function() {
                     <div class="alert">
                         <strong><?php echo JText::_('JFIELD_NOTE_DESC')?>!</strong><?php echo JText::_('COM_ZOEARTH_ITEM_IMPORT_STEP01_DESC')?>
                     </div>
-                    <input class="required ckeckDirExist" type="text" id="imgUploadPath" name="imgUploadPath" placeholder="<?php echo JText::_('COM_ZOEARTH_ITEM_IMPORT_IMG_DIR')?>">
+                    <input value="<?php echo ($this->data['imgUploadPath'] ? $this->data['imgUploadPath']:'images') ?>" class="required ckeckDirExist" type="text" id="imgUploadPath" name="imgUploadPath" placeholder="<?php echo JText::_('COM_ZOEARTH_ITEM_IMPORT_IMG_DIR')?>">
                 </div>
             </div>
         
@@ -126,7 +126,7 @@ jQuery(document).ready(function() {
                     <div class="alert">
                         <strong><?php echo JText::_('JFIELD_NOTE_DESC')?>!</strong><?php echo JText::_('COM_ZOEARTH_ITEM_IMPORT_STEP02_DESC')?>
                     </div>
-                    <input class="required ckeckPreFixExist" type="text" id="imgPrefix" name="imgPrefix" placeholder="<?php echo JText::_('COM_ZOEARTH_ITEM_IMPORT_IMG_PREFIX')?>">
+                    <input value="" class="required ckeckPreFixExist" type="text" id="imgPrefix" name="imgPrefix" placeholder="<?php echo JText::_('COM_ZOEARTH_ITEM_IMPORT_IMG_PREFIX')?>">
                 </div>
             </div>
         
@@ -166,11 +166,6 @@ jQuery(document).ready(function() {
     <input type="hidden" value="<?php echo $this->data['view']?>" name="view">
     <input type="hidden" value="<?php echo $this->data['task']?>" name="task">
     
-    <input type="hidden" value="<?php echo $this->data['search']?>" name="params">
-    <input type="hidden" value="<?php echo $this->data['limit']?>" name="limit">
-    <input type="hidden" value="<?php echo $this->data['limitstart']?>" name="limitstart">
-    <input type="hidden" value="<?php echo $this->data['order']?>" name="order">
-    <input type="hidden" value="<?php echo $this->data['sort']?>" name="sort">
     </form>
 </div>
 </div>
