@@ -136,8 +136,9 @@ class ZoearthItemImportControllerImport extends ZoeController
                                 'tmpFile' => $goImgDir.DS.$file,
                                 'newFile' => $newFileName,
                                 );
-                            $fileContent = preg_replace('/([^"]*)_files\/'.$file.'/',$newFileName,$fileContent);
-                            $preViewFileContent = preg_replace('/([^"]*)_files\/'.$file.'/',JUri::root().'cache/com_zoearth_item_import/'.$tmpZipDir.'/'.$tmpZipDir.'/'.$file,$preViewFileContent);
+                            $fileForSearch = preg_replace('/([\[\]]{1,1})/','\\\$1',$file);
+                            $fileContent = preg_replace('/([^"]*)_files\/'.$fileForSearch.'/',$newFileName,$fileContent);
+                            $preViewFileContent = preg_replace('/([^"]*)_files\/'.$fileForSearch.'/',JUri::root().'cache/com_zoearth_item_import/'.$tmpZipDir.'/'.$tmpZipDir.'/'.$file,$preViewFileContent);
                         }
                     }
                     closedir($dh);
