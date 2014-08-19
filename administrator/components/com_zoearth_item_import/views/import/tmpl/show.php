@@ -3,10 +3,28 @@
 @author zoearth
 */
 defined('_JEXEC') or die('Restricted access');
-
 ZoeSetupJs::lightBox();
 ?>
 <script language="Javascript">
+//20140819 zoearth 存入圖片
+jQuery(document).ready(function() {
+    jQuery(".saveImgFiles").click(function(){
+        jQuery("#saveImgFiles").attr('disabled',true);
+        var postUrl = "<?php echo JUri::base().'index.php?option=com_zoearth_item_import&view=Import&task=saveImgs'?>";
+        jQuery.post(postUrl,jQuery("#saveImgForm").serialize(), function(data) {
+            result = data.result;
+            jQuery("#saveImgFiles").attr('disabled',false);
+            if (result != "1")
+        	{
+                alert(result);
+        	}
+            else
+            {
+                alert("<?php echo JText::_('COM_ZOEARTH_ITEM_IMPORT_SAVE_FILES_SUCCESS')?>");
+            }
+        },"json");
+    });
+});
 </script>
 <style type="text/css">
 .subhead-collapse
@@ -44,6 +62,7 @@ ZoeSetupJs::lightBox();
     <fieldset>
         <legend><?php echo JText::_('COM_ZOEARTH_ITEM_IMPORT')?></legend>
 
+        
             <div class="control-group">
                 <label class="control-label" ><?php echo JText::_('COM_ZOEARTH_ITEM_IMPORT_SOURCE_CODE')?></label>
                 <div class="controls">
@@ -57,7 +76,30 @@ ZoeSetupJs::lightBox();
                     <textarea name="forCopy"><?php echo $this->data['fileContent'] ?></textarea>
                 </div>
             </div>
-            <button type="button" class="btn btn-info saveFiles"><i class="icon-download"></i><?php echo JText::_('COM_ZOEARTH_ITEM_IMPORT_SAVE_FILES')?></button>
+        
+            <?php if (is_array($this->data['preUploadFiles']) && count($this->data['preUploadFiles']) > 0 ):?>
+            <div class="control-group">
+                <label class="control-label" ><?php echo JText::_('COM_ZOEARTH_ITEM_IMPORT_SAVE_FILES')?></label>
+                <div class="controls">
+                    <!-- 寫入圖片 -->
+                    <button type="button" class="btn btn-info saveImgFiles"><i class="icon-download"></i><?php echo JText::_('COM_ZOEARTH_ITEM_IMPORT_SAVE_FILES')?></button>
+                    <form id="saveImgForm" name="saveImgForm" action="<?php echo Juri::base().'index.php'; ?>" method="post" >
+                    <ul class="thumbnails">
+                        <?php foreach ($this->data['preUploadFiles'] as $file):?>
+                        <li class="span3">
+                        <div class="thumbnail">
+                            <img src="<?php echo $file['tmpView']?>" >
+                            <h3><?php echo $file['newFile']?></h3>
+                            <input type="hidden" name="tmpFile[]" value="<?php echo $file['tmpFile']?>">
+                            <input type="hidden" name="newFile[]" value="<?php echo $file['newFile']?>">
+                        </div>
+                        </li>
+                        <?php endforeach;?>
+                    </ul>
+                    </form>
+                </div>
+            </div>
+            <?php endif;?>
     </fieldset>    
     </div>
     

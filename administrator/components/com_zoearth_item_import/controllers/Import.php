@@ -133,6 +133,7 @@ class ZoearthItemImportControllerImport extends ZoeController
                             $imgCount = substr('0'.$i,-2,2);
                             $newFileName = $imgUploadPath.'/'.$imgPrefix.'_'.$imgCount.'.'.@$matches[1];
                             $preUploadFiles[] = array(
+                                'tmpView' => JUri::root().'cache/com_zoearth_item_import/'.$tmpZipDir.'/'.$tmpZipDir.'/'.$file,
                                 'tmpFile' => $goImgDir.DS.$file,
                                 'newFile' => $newFileName,
                                 );
@@ -151,11 +152,34 @@ class ZoearthItemImportControllerImport extends ZoeController
             
             $view = $this->getDisplay(CONTROLLER.'/show');
         }
+        else
+        {
+            
+        }
         
         $view->assignRef('data', $this->viewData);
         $view->display();
     }
 
+    //20140819 zoearth 存入圖片
+    function saveImgs()
+    {
+        $tmpFile = JRequest::getVar('tmpFile');
+        $newFile = JRequest::getVar('newFile');
+        if ($this->isPost() && is_array($tmpFile) && is_array($newFile))
+        {
+            foreach ($tmpFile as $key=>$tmpFile)
+            {
+                if (JFile::exists($tmpFile) && !JFile::exists(JPATH_ROOT.DS.$newFile[$key]) )
+                {
+                    @JFile::copy($tmpFile, JPATH_ROOT.DS.$newFile[$key]);
+                }
+            }
+            echo json_encode(array('result'=>1));exit();
+        }
+        echo json_encode(array('result'=>'SAVEIMGS ERROR POST'));exit();
+    }
+    
     //驗證路徑
     function ckeckDirExist()
     {
