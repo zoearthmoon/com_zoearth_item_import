@@ -17,6 +17,11 @@ class ZoearthItemImportControllerImport extends ZoeController
     
     function index()
     {
+        //設定檔
+        $configFile    = JPATH_ROOT.DS.'administrator'.DS.'components'.DS.'com_zoearth_item_import'.DS.'media'.DS.'config.json';
+        $configFileVal = @file_get_contents($configFile);
+        $config = @json_decode($configFileVal,TRUE);
+        
         //20140425 zoearth Joomla 必須先設定模板
         //20140424 zoearth 設定模板
         $view = $this->getDisplay(CONTROLLER.'/import');
@@ -151,11 +156,21 @@ class ZoearthItemImportControllerImport extends ZoeController
             $this->viewData['preUploadFiles']     = $preUploadFiles;
             
             $view = $this->getDisplay(CONTROLLER.'/show');
+            
+            //20140819 zoearth 寫入設定暫存檔
+            $data  = array('imgUploadPath'=>$imgUploadPath);
+            @file_put_contents($configFile, json_encode($data));
         }
         else
         {
             //20140819 zoearth 刪除暫存檔案
             $this->deleteDirectory(JPATH_ROOT.DS.'cache'.DS.'com_zoearth_item_import');
+        }
+        
+        //讀取設定檔
+        if (isset($config['imgUploadPath']))
+        {
+            $this->viewData['imgUploadPath'] = $config['imgUploadPath'];
         }
         
         $view->assignRef('data', $this->viewData);

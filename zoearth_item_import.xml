@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="component" version="2.5" method="upgrade">
     <name>com_zoearth_item_import</name>
-    <version>1.0</version>
+    <version>1.1</version>
     <author>zoearthmoon@gmail.com</author>
     <authorEmail>zoearthmoon@gmail.com</authorEmail>
     <authorUrl>http://www.zoearthmoon.net/</authorUrl>
