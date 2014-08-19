@@ -154,13 +154,39 @@ class ZoearthItemImportControllerImport extends ZoeController
         }
         else
         {
-            
+            //20140819 zoearth 刪除暫存檔案
+            $this->deleteDirectory(JPATH_ROOT.DS.'cache'.DS.'com_zoearth_item_import');
         }
         
         $view->assignRef('data', $this->viewData);
         $view->display();
     }
 
+    //刪除資料夾
+    private function deleteDirectory($dirPath)
+    {
+        if (is_dir($dirPath))
+        {
+            $objects = scandir($dirPath);
+            foreach ($objects as $object)
+            {
+                if ($object != "." && $object !="..")
+                {
+                    if (filetype($dirPath . DIRECTORY_SEPARATOR . $object) == "dir")
+                    {
+                        $this->deleteDirectory($dirPath . DIRECTORY_SEPARATOR . $object);
+                    }
+                    else
+                    {
+                        unlink($dirPath . DIRECTORY_SEPARATOR . $object);
+                    }
+                }
+            }
+            reset($objects);
+            rmdir($dirPath);
+        }
+    }
+    
     //20140819 zoearth 存入圖片
     function saveImgs()
     {
