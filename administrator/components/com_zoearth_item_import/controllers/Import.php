@@ -121,6 +121,16 @@ class ZoearthItemImportControllerImport extends ZoeController
             preg_match("/<body([^>]*)>(.*)<\/body>/",$fileContent,$matches);
             //去掉<a name="9303"/>
             $fileContent = preg_replace('/<a([^>]*)name="([0-9]*)"([^>]*)\/>/','', $matches[2]);
+			
+			//20140820 zoearth 移除圖片高度與寬度
+			$fileContent = preg_replace('/((width|height)([ =]{1,})([0-9px"\']{1,}))/','', $fileContent);
+			$fileContent = preg_replace('/((width|height)([: ]{1,})([0-9px]{1,}))/','', $fileContent);
+			//20140820 zoearth 移除連結
+			$fileContent = preg_replace('/<a\s[^>]*>(.*)<\/a>/siU','$1', $fileContent);
+            //20140821 zoearth 移除多餘div
+			$fileContent = preg_replace('/<div\s[^>]*>(.*)<\/div>/siU','$1', $fileContent);
+            $fileContent = preg_replace('/<div\s[^>]*>(.*)<\/div>/siU','$1', $fileContent);
+            
             $preViewFileContent = $fileContent;//預覽用
             $preUploadFiles = array();
             $i = 0;
