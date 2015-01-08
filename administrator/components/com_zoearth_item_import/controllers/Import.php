@@ -126,7 +126,20 @@ class ZoearthItemImportControllerImport extends ZoeController
 			$fileContent = preg_replace('/((width|height)([ =]{1,})([0-9px"\']{1,}))/','', $fileContent);
 			$fileContent = preg_replace('/((width|height)([: ]{1,})([0-9px]{1,}))/','', $fileContent);
 			//20140820 zoearth 移除連結
-			$fileContent = preg_replace('/<a\s[^>]*>(.*)<\/a>/siU','$1', $fileContent);
+			$fileContent = preg_replace_callback('/<a[^>]*(href="[^"]*")[^>]*>(.*)<\/a>/siU',function ($match) {
+                
+                //如果是小屋連結
+                if (preg_match("/home.gamer.com.tw/",$match[1]))
+                {
+                    return '<span class="label label-success">'.$match[2].'</span>';
+                }
+                else
+                {
+                    return '<a '.$match[1].' target="_blank" >'.$match[2].'</a>';
+                }
+            }
+            , $fileContent);
+            
             //20140821 zoearth 移除多餘div
 			$fileContent = preg_replace('/<div\s[^>]*>(.*)<\/div>/siU','$1', $fileContent);
             $fileContent = preg_replace('/<div\s[^>]*>(.*)<\/div>/siU','$1', $fileContent);
