@@ -11,7 +11,7 @@
         </fieldset>
         <fieldset name="permissions" label="JCONFIG_PERMISSIONS_LABEL" description="JCONFIG_PERMISSIONS_DESC">
             <field type="krdonationcodecheck"/>
-            <field name="rules" type="rules" label="JCONFIG_PERMISSIONS_LABEL" filter="rules" section="component" component="com_loan_customer" validate="rules"/>
+            <field name="rules" type="rules" label="JCONFIG_PERMISSIONS_LABEL" filter="rules" section="component" component="com_zoearth_item_import" validate="rules"/>
         </fieldset>
     </fields>
 </config>

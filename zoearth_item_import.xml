@@ -35,6 +35,7 @@
     <administration>
         <menu>COM_ZOEARTH_ITEM_IMPORT</menu>
         <submenu>
+            <menu link="option=com_zoearth_item_import">COM_ZOEARTH_ITEM_IMPORT</menu>
         </submenu>
         <files folder="administrator/components/com_zoearth_item_import">
             <filename>index.html</filename>
