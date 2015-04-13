@@ -17,6 +17,8 @@ class ZoearthItemImportControllerImport extends ZoeController
     
     function index()
     {
+		set_time_limit(0);//20150221 zoearth
+		
         //設定檔
         $configFile    = JPATH_ROOT.DS.'administrator'.DS.'components'.DS.'com_zoearth_item_import'.DS.'media'.DS.'config.json';
         $configFileVal = @file_get_contents($configFile);
