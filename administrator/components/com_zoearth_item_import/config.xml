@@ -10,7 +10,6 @@
             <field name="serviceCategory" type="z2category" default="" label="COM_LOAN_SERVICE_ITEM_CATEGORY" />
         </fieldset>
         <fieldset name="permissions" label="JCONFIG_PERMISSIONS_LABEL" description="JCONFIG_PERMISSIONS_DESC">
-            <field type="krdonationcodecheck"/>
             <field name="rules" type="rules" label="JCONFIG_PERMISSIONS_LABEL" filter="rules" section="component" component="com_zoearth_item_import" validate="rules"/>
         </fieldset>
     </fields>
